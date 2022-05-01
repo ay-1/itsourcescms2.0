@@ -19,6 +19,7 @@ public class LoginFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         System.out.println("loginFilter.doFilter()");
 //        强转request.response对象
         HttpServletRequest httpRequest = (HttpServletRequest) request;
@@ -28,7 +29,18 @@ public class LoginFilter implements Filter {
         System.out.println(resourcePath);
 
 //        if ("/cms/login.jsp".equals(resourcePath) || "/cms/login".equals(resourcePath)) {
-        if (resourcePath != null && resourcePath.contains("login")) {
+        if (resourcePath != null && (
+                resourcePath.contains("/cms/login")
+                        || resourcePath.contains("/cms/LoginServlet")
+                        || resourcePath.contains("/cms/index")
+                        || resourcePath.contains("/index")
+                        || resourcePath.contains("index")
+
+                        || resourcePath.endsWith(".css")
+                        || resourcePath.endsWith(".png")
+                        || resourcePath.endsWith(".ico")
+                        || resourcePath.endsWith(".jpg")
+        )) {
             //        放行的目标资源
             System.out.println("第一不为空");
             chain.doFilter(request, response);

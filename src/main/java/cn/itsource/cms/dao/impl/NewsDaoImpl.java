@@ -6,11 +6,9 @@ import cn.itsource.cms.domain.NewsType;
 import cn.itsource.cms.domain.User;
 import cn.itsource.cms.utils.JDBCUtil;
 
-
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class NewsDaoImpl implements NewsDao {
 
@@ -367,4 +365,82 @@ public class NewsDaoImpl implements NewsDao {
         }
         return null;
     }
+
+    public Map<String, List<News>> queryIndexInfo() {
+
+        Map<String, List<News>> map = new HashMap<String, List<News>>();
+//      获取新闻列表
+//         推荐新闻
+        String sql1 = "select * from t_news where isRecommend = 1 limit 0,5";
+//        最新新闻
+        String sql2 = "select * from t_news order by inputDate desc limit 0,5";
+//        热门新闻
+        String sql3 = "select * from t_news order by viewCount desc limit 0,5";
+        List<News> recommendList = queryNewsListBySql(sql1);
+        List<News> recentList = queryNewsListBySql(sql2);
+        List<News> hotNewsList = queryNewsListBySql(sql3);
+        map.put("recommendList", recommendList);
+        map.put("recentList", recentList);
+        map.put("hotNewsList", hotNewsList);
+        return map;
+    }
+
+
+    public List<News> queryNewsListBySql(String sql) {
+/**
+ * 根据sql语句查询新闻列表
+ */
+        List<News> list = new ArrayList<>();
+        //获取工具对象
+//        ArrayList<News> list = new ArrayList<>();
+        JDBCUtil jdbc = JDBCUtil.getInstance();
+        Connection conn = null;//声明Connection数据库连接对象
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = jdbc.getConn();//获取Connection(数据库连接)对象
+            ps = conn.prepareStatement(sql);//预编译sql语句
+            rs = ps.executeQuery();//执行SQL语句,将SQL语句发送到数据库，执行SQL，返回执行结果
+            while (rs.next()) {//判断是否存在返回的数据列
+                Long id = rs.getLong("id");//数据字段名（列名）获取数据
+                String title = rs.getString("title");
+                String context = rs.getString("context");
+                Integer viewCount = rs.getInt("viewCount");
+                Boolean isR = rs.getBoolean("isRecommend");
+                Date inputDate = rs.getDate("inputDate");
+                Long type_id = rs.getLong("type_id");
+                Long user_id = rs.getLong("user_id");
+//                根据type-id查询NewsType对象
+                NewsType newsType = queryNewsTypeById(type_id);
+//                 根据user_id 查询User对象
+                User user = queryUserById(user_id);
+                //封装数据
+                News news = new News();
+                news.setId(id);
+                news.setTitle(title);
+                news.setContext(context);
+                news.setViewCount(viewCount);
+                news.setIsRecommend(isR);
+                news.setInputDate(inputDate);
+                news.setNewsType(newsType);
+                news.setUser(user);
+                //将News对象封装到List中
+                list.add(news);
+
+//                System.out.println(id+"     "+title+"       "+context);
+
+            }
+            return list;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            jdbc.close(rs, ps, conn);
+        }
+        return null;
+    }
+
+
 }
+
+
+

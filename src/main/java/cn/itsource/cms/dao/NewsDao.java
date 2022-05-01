@@ -4,45 +4,68 @@ package cn.itsource.cms.dao;
 import cn.itsource.cms.domain.News;
 
 import java.util.List;
+import java.util.Map;
 
 public interface NewsDao {
     /**
      * News模块的接口
+     *
      * @return
      */
-    public List<News> queryNewsList();
+    List<News> queryNewsList();
 
     /**
-     *根据查询条件查询新闻列表
+     * 根据查询条件查询新闻列表
      *
      * @param isRecommend
      * @param keyword
      * @return
      */
-    public List<News> queryNewsList(String isRecommend, String keyword);
+    List<News> queryNewsList(String isRecommend, String keyword);
 
     /**
      * 根据id查询新闻数据
+     *
      * @param newsId
      * @return
      */
-    public News queryNewById(Long newsId);
+    News queryNewById(Long newsId);
+
+    /**
+     * 根据id查询数据
+     *
+     * @param newsId
+     * @return
+     */
+    News queryNewsById(Long newsId);
 
     /**
      * 根据id插入新闻数据
+     *
      * @param news
      */
-    public void insert(News news);
+    void insert(News news);
 
     /**
      * 根据id删除新闻数据
+     *
      * @param newsId
      */
-    public void delete(Long newsId);
+    void delete(Long newsId);
 
     /**
      * 根据id更新新闻数据
+     *
      * @param news
      */
-    public void update(News news);
+    void update(News news);
+
+    /**
+     * 获取首页新闻数据
+     *
+     * @return
+     */
+    Map<String, List<News>> queryIndexInfo();
+
+
 }

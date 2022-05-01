@@ -21,6 +21,8 @@ public class NewsServlet extends HttpServlet {
 
     NewsDaoImpl newsDao = new NewsDaoImpl();
     NewsTypeDao newsTypeDao = new NewsTypeDaoImpl();
+//    NewsDao newsDao = new NewsDaoImpl();
+//    NewsTypeDao newsTypeDao = new NewsTypeDaoImpl();
 
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

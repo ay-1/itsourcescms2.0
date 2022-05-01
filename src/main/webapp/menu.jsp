@@ -10,8 +10,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>Title</title>
+    <link href="./styles/general.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="../plugin/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
+    <script type="text/javascript" src="./plugin/ztree/js/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="./plugin/ztree/js/jquery.ztree.core.js"></script>
     <style type="text/css">
         body {
             background: #80BDCB;
@@ -134,6 +138,45 @@
         }
 
     </style>
+
+    <script type="text/javascript">
+        var setting = {};
+        //json对象
+        var zNodes = [{
+            name: "基本功能",
+            open: true,
+            iconOpen: "./plugin/ztree/css/zTreeStyle/img/diy/1_open.png",
+            iconClose: "./plugin/ztree/css/zTreeStyle/img/diy/1_close.png",
+
+            children: [{
+                name: "新闻管理",
+                url: "/cms/news",
+                target: "main-frame"
+
+            }, {
+                name: "搜狗",
+                url: "http://www.sogou.com/",
+                target: "main-frame"
+            }, {
+                name: "用户管理"
+            }]
+        }, {
+            name: "系统功能",
+            open: true,
+            children: [{
+                name: "数据字典"
+            }, {
+                name: "广告",
+                url: "",
+                target: "main-frame"
+            },]
+        }];
+        $(document).ready(function () {
+            $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+        })
+    </script>
+
+
 </head>
 <body>
 <div id="tabbar-div">

@@ -37,14 +37,39 @@ public class TestNewsDao {
         news.setIsRecommend(true);
         news.setNewsType(newsType);
         news.setUser(user);
-       newDao.update(news);
+        newDao.update(news);
         System.out.println(news);
 
     }
+
     @Test
     public void testqueryNewsList() {
         NewsDaoImpl newdao = new NewsDaoImpl();
-        List<News> list = newdao.queryNewsList("false",null);
+        List<News> list = newdao.queryNewsList("false", null);
         System.out.println(list);
+    }
+
+    @Test
+    public void testqueryNewsListBySql() {
+        NewsDaoImpl newdao = new NewsDaoImpl();
+//         推荐新闻
+        String sql1 = "select * from t_news where isRecommend = 1 limit 0,5";
+//        最新新闻
+        String sql2 = "select * from t_news order by inputDate desc limit 0,5";
+//        热门新闻
+        String sql3 = "select * from t_news order by viewCount desc limit 0,5";
+        List<News> list1 = newdao.queryNewsListBySql(sql1);
+        List<News> list2 = newdao.queryNewsListBySql(sql2);
+        List<News> list3 = newdao.queryNewsListBySql(sql3);
+        System.out.println(list1);
+        System.out.println(list2);
+        System.out.println(list3);
+    }
+
+    @Test
+    public void testQueryIndexInfo() {
+        NewsDaoImpl newDao = new NewsDaoImpl();
+        System.out.println(newDao.queryIndexInfo());
+
     }
 }

@@ -120,9 +120,9 @@
     </div>
     <div id="submenu-div">
         <ul>
-            <li><a href="/WEB-INF/web/system/manage.jsp" target="_blank">快讯首页</a></li>
+            <li><a href="/webapp/WEB-INF/web/html/index.jsp" target="_blank">快讯首页</a></li>
             <li><a fref="#" target="main-frame">个人设置</a></li>
-            <li style="border-right:none"><a href="#">刷新</a></li>
+            <li style="border-right:none"><a href="/cms/index.jsp">刷新</a></li>
 
         </ul>
         <div id="send_info">
